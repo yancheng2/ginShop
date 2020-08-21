@@ -32,6 +32,7 @@ func SetUp(){
 
 	db.SingularTable(true)		//设置禁用表名的复数形式
 	db.LogMode(true)				//打印sql日志
+	db.AutoMigrate(&User{})
 
 	db.DB().SetMaxIdleConns(10)     //设置空闲时的最大连接数
 	db.DB().SetMaxOpenConns(100)        //设置数据库的最大打开连接数

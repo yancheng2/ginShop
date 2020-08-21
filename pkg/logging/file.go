@@ -28,7 +28,7 @@ func openLogFile(filename,filepath string)(*os.File,error){
 		return nil,fmt.Errorf("os.Getwd err:%s",err)
 	}
 	// 拼接文件路径
-	path := fmt.Sprintln(dir,"/",filepath)
+	path := fmt.Sprintf("%s/%s",dir,filepath)
 	// 检查文件权限
 	permission := file.CheckPermission(path)
 	if permission == true{
