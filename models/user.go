@@ -6,7 +6,7 @@ import (
 )
 
 type User struct {
-	gorm.Model                                                                                         //会自动添加id,created_at,updated_at,deleted_at四个字段，可以进入看下类型
+	gorm.Model                   //会自动添加id,created_at,updated_at,deleted_at四个字段，可以进入看下类型
 	Mobile        string         `gorm:"type:char(11);index;unique;not null;" json:"mobile,omitempty"` //手机号,加索引，唯一，不为空
 	Name          string         `gorm:"type:varchar(12);"`                                            //用户昵称，3-12个字符
 	Desc          string         `gorm:"type:varchar(100);"`
@@ -21,5 +21,19 @@ type User struct {
 	QqOpenid      sql.NullString `gorm:"unique;index;" json:"-"`              //QQopenid,唯一，加索引，json不返回
 }
 
+func FindUserByMobile(mobile string) (User, error) {
+	var user User
+	err := db.Where("mobile=?", mobile).First(&user).Error
+	return user, err
 
+}
 
+func CreateUser(mobile string) (User, error) {
+	var user User
+	if mobile != "" {
+		user.Mobile = mobile
+		err := db.Create(&user).Error
+		return user, err
+	}
+	return user, nil
+}
