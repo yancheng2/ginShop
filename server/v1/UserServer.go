@@ -8,6 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// 登录注册
 func Login(c *gin.Context) {
 	// 接收post参数值
 	mobile := c.PostForm("mobile") //手机号
@@ -48,6 +49,7 @@ func Login(c *gin.Context) {
 	}, "登录成功", c)
 }
 
+//检查错误
 func checkValidation(vali *validation.Validation, c *gin.Context) bool {
 	if vali.HasErrors() {
 		var errs []string
