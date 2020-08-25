@@ -26,6 +26,7 @@ func InitRouter() *gin.Engine {
 		//无需token登录的接口
 		group.POST("login", v1.Login)
 		group.GET("goodsList", v1.GetGoodsList)
+		group.GET("categoryList", v1.GetCategory)
 	}
 	return engine
 
