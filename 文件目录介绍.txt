@@ -14,4 +14,5 @@ runtime/logs	存放项目打印的日志
 runtime/upload	存放上传的资源文件夹
 runtime/upload/apks	存放安卓更新的安装包，都是apk文件
 runtime/upload/images	存放项目的图片，比如用户的头像，用户上传的图片都在这里
+server       存放业务代码
 templates	静态资源文件夹，比如web页面等

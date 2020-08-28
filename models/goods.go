@@ -9,6 +9,8 @@ type Goods struct {
 	GoodsImg    string  `gorm:"type:varchar(100);not null;"`
 	IsHot       int     `gorm:"type:tinyint(1);not null;default:0;"`
 	IsSale      int     `gorm:"type:tinyint(1);not null;default:0;"`
+	IsNew       int     `gorm:"type:tinyint(1);not null;default:0;"`
+	SortOrder   int     `gorm:"type:smallint(4);not null;default:100;"`
 	CreateTime  string  `gorm:"type:datetime;not null;"`
 }
 
@@ -18,4 +20,9 @@ func GoodsList(offset, limit int, where map[string]interface{}) ([]Goods, error)
 	err := db.Offset(offset).Limit(limit).Find(&list).Error
 
 	return list, err
+}
+func GoodsCount() (int, error) {
+	var count int
+	err := db.Model(&Goods{}).Count(&count).Error
+	return count, err
 }
