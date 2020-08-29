@@ -21,8 +21,17 @@ func GoodsList(offset, limit int, where map[string]interface{}) ([]Goods, error)
 
 	return list, err
 }
+
+// 商品总数
 func GoodsCount() (int, error) {
 	var count int
 	err := db.Model(&Goods{}).Count(&count).Error
 	return count, err
+}
+
+// 商品详情
+func GoodsDetails(goods_id int) (Goods, error) {
+	var info Goods
+	err := db.Where("goods_id", goods_id).First(&info).Error
+	return info, err
 }

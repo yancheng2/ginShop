@@ -76,6 +76,7 @@ func Search(indexName string, where map[string]interface{}) (*elastic.SearchResu
 
 	search := es.Search(indexName).Index(indexName)
 
+	// 过滤
 	if _, ok := where["filter"]; ok {
 		boolQuery := elastic.NewBoolQuery()
 		filterW := where["filter"].(map[int]interface{})
@@ -85,11 +86,11 @@ func Search(indexName string, where map[string]interface{}) (*elastic.SearchResu
 			if val != nil {
 				v := val.(map[string]interface{})
 				fmt.Println("v:", v)
-				if v["val"] != nil {
+				if v["val"] != "" {
 					field := v["field"].(string)
 					val := v["val"]
 					fmt.Println("field:", field, "val:", val)
-					filter := elastic.NewTermQuery(field, val).QueryName("term")
+					filter := elastic.NewTermQuery(field, val)
 					if filter == nil {
 						continue
 					}
@@ -101,14 +102,17 @@ func Search(indexName string, where map[string]interface{}) (*elastic.SearchResu
 		query := boolQuery.Filter(querys...)
 		search.Query(query)
 	}
+	// 查询 模糊
 	if _, ok := where["query"]; ok {
 		queryW := where["query"].(string)
 		if queryW != "" {
+			fmt.Println(queryW)
 			query := elastic.NewMultiMatchQuery(queryW)
 			search.Query(query)
 		}
 	}
 
+	// 排序
 	if _, ok := where["sort"]; ok {
 		field := where["sort"].(map[string]interface{})["field"].(string)
 		val := where["sort"].(map[string]interface{})["val"].(bool)

@@ -49,6 +49,16 @@ func GetGoodsList(c *gin.Context) {
 	util.ResponseWithJson(200, list, "返回成功", c)
 }
 
+func GoodsDetails(c *gin.Context) {
+	goods_id := c.Query("goods_id")
+	details, err := models.GoodsDetails(ids)
+	if err != nil {
+		util.ResponseWithJson(9002, err, "", c)
+		return
+	}
+	util.ResponseWithJson(200, details, "查询成功", c)
+}
+
 // 暂时-创建索引
 func CreateIndex(c *gin.Context) {
 	body := `{
