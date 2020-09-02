@@ -3,6 +3,7 @@ package models
 type Goods struct {
 	GoodsId     int     `gorm:"type:int(11);not null;PRIMARY_KEY:true;AUTO_INCREMENT:true;"`
 	GoodsName   string  `gorm:"type:varchar(100);not null;"`
+	GoodsSn   	string  `gorm:"type:varchar(60);not null;"`
 	GoodsPrice  float64 `gorm:"type:float(10);not null;DEFAULT:0.00;"`
 	GoodsNumber int     `gorm:"type:int(11);not null;default:0;"`
 	CatId       int     `gorm:"type:int(11);not null;"`

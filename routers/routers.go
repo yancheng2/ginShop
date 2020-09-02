@@ -28,6 +28,10 @@ func InitRouter() *gin.Engine {
 		group.GET("goodsList", v1.GetGoodsList)      //商品列表
 		group.GET("goodsDetails", v1.GoodsDetails)   //商品详情
 		group.GET("categoryList", v1.GetCategory)    //分类树
+		group.POST("addGoodsToCart", v1.AddGoodsToCart)    //加购
+
+
+
 		group.GET("SyncGoodsToEs", v1.SyncGoodsToEs) //同步es
 		group.GET("CreateIndex", v1.CreateIndex)     //创建index
 	}

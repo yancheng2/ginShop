@@ -5,6 +5,7 @@ package e
 */
 var MsgFlags = map[int]string{
 	200:   "success",
+	1001:  "商品不存在",
 	9001:  "响应错误信息",
 	9002:  "系统错误",
 	9003:  "请先登录",
