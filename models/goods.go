@@ -12,6 +12,7 @@ type Goods struct {
 	IsNew       int     `gorm:"type:tinyint(1);not null;default:0;"`
 	SortOrder   int     `gorm:"type:smallint(4);not null;default:100;"`
 	CreateTime  string  `gorm:"type:datetime;not null;"`
+	CatName     string
 }
 
 // 商品列表
@@ -32,6 +33,6 @@ func GoodsCount() (int, error) {
 // 商品详情
 func GoodsDetails(goods_id int) (Goods, error) {
 	var info Goods
-	err := db.Where("goods_id", goods_id).First(&info).Error
+	err := db.Select("sh_goods.*,c.cat_name").Joins("left join sh_category as c on c.cat_id = sh_goods.cat_id").Where("goods_id=?", goods_id).First(&info).Error
 	return info, err
 }

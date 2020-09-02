@@ -77,10 +77,10 @@ func Search(indexName string, where map[string]interface{}) (*elastic.SearchResu
 	search := es.Search(indexName).Index(indexName)
 
 	// 过滤
+	boolQuery := elastic.NewBoolQuery()
 	if _, ok := where["filter"]; ok {
-		boolQuery := elastic.NewBoolQuery()
 		filterW := where["filter"].(map[int]interface{})
-		var querys = make([]elastic.Query, 0)
+		var querys []elastic.Query
 		fmt.Println("filter:", filterW)
 		for _, val := range filterW {
 			if val != nil {
@@ -99,8 +99,10 @@ func Search(indexName string, where map[string]interface{}) (*elastic.SearchResu
 				}
 			}
 		}
-		query := boolQuery.Filter(querys...)
-		search.Query(query)
+		if querys != nil {
+			fmt.Println("filter querys:", querys)
+			boolQuery.Filter(querys...)
+		}
 	}
 	// 查询 模糊
 	if _, ok := where["query"]; ok {
@@ -108,8 +110,11 @@ func Search(indexName string, where map[string]interface{}) (*elastic.SearchResu
 		if queryW != "" {
 			fmt.Println(queryW)
 			query := elastic.NewMultiMatchQuery(queryW)
-			search.Query(query)
+			boolQuery.Must(query)
 		}
+	}
+	if boolQuery != nil {
+		search.Query(boolQuery)
 	}
 
 	// 排序
@@ -137,4 +142,15 @@ func Search(indexName string, where map[string]interface{}) (*elastic.SearchResu
 	result, err := search.Do(context.Background())
 	return result, err
 
+}
+
+// 对搜索结果进行整合处理
+func SearchResultHandle(result *elastic.SearchResult) (int64, []interface{}) {
+	var list []interface{}
+	total := result.Hits.TotalHits // 数据总数量
+	hits := result.Hits.Hits       //结果
+	for _, val := range hits {
+		list = append(list, val.Source)
+	}
+	return total, list
 }
