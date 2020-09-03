@@ -17,7 +17,27 @@ type Cart struct {
 	CreateTime 		string  	`gorm:"type:datetime;not null;"`
 }
 
-func AddCart(session_id string, user_id int, goodsData map[int]map[string]interface{}) ([]Cart, error) {
+func AddCart(session_id string, user_id int, goodsData map[string]interface{}) (Cart, error) {
+	if goodsData == nil{
+
+	}
+	var info Cart
+	info.GoodsId = goodsData["goods_id"].(int)
+	info.GoodsNumber = goodsData["goods_number"].(int)
+	info.GoodsPrice = goodsData["goods_price"].(float64)
+	info.GoodsSn = goodsData["goods_sn"].(string)
+	info.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+	info.SessionId = session_id
+	info.UserId = user_id
+	fmt.Println("info:",info)
+	err := db.Omit("CatId","Status").Create(&info).Error
+
+	return info,err
+}
+
+
+// 批量新增-暂时未成功
+func BatchAddCart(session_id string, user_id int, goodsData map[int]map[string]interface{}) ([]Cart, error){
 	if goodsData == nil{
 
 	}
