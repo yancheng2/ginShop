@@ -37,7 +37,7 @@ func Login(c *gin.Context) {
 			return
 		}
 	}
-	token, err := util.GeteraterToken(userInfo.ID, userInfo.Mobile)
+	token, err := util.GeteraterToken(userInfo.Id, userInfo.Mobile)
 	if err != nil {
 		util.ResponseWithJson(9002, "", "", c)
 		return

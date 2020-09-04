@@ -5,7 +5,9 @@ go 1.14
 require (
 	github.com/astaxie/beego v1.12.2
 	github.com/astaxie/session v0.0.0-20130408050157-95d7fe18579c
+	github.com/aws/aws-sdk-go v1.29.11
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-gonic/gin v1.6.3
 	github.com/gorilla/sessions v1.2.1
 	github.com/jinzhu/gorm v1.9.16

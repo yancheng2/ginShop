@@ -9,17 +9,19 @@ import (
 var jwtSecret = []byte(setting.AppSetting.JwtSecret) //jwt秘钥
 
 type Claims struct {
-	ID uint
+	ID     int
+	Mobile string
 	jwt.StandardClaims
 }
 
 //生成token
-func GeteraterToken(id uint, mobile string) (string, error) {
+func GeteraterToken(id int, mobile string) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(setting.AppSetting.JwtExpireTime * time.Hour)
 
 	claims := Claims{
 		id,
+		mobile,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    "blog",

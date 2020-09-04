@@ -2,11 +2,10 @@ package models
 
 import (
 	"database/sql"
-	"github.com/jinzhu/gorm"
 )
 
 type User struct {
-	gorm.Model                   //会自动添加id,created_at,updated_at,deleted_at四个字段，可以进入看下类型
+	Id            int
 	Mobile        string         `gorm:"type:char(11);index;unique;not null;" json:"mobile,omitempty"` //手机号,加索引，唯一，不为空
 	Name          string         `gorm:"type:varchar(12);"`                                            //用户昵称，3-12个字符
 	Desc          string         `gorm:"type:varchar(100);"`
