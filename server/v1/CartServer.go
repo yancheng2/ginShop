@@ -51,7 +51,28 @@ func AddGoodsToCart(c *gin.Context) {
 }
 
 // 获取购物车商品信息
+func GetCartGoodsList(c *gin.Context) {
+	uid, _ := c.Get("ID")
 
-func GetCartGoodsList() {
+	result, err := models.GetUserCartGoods(uid.(int))
+	if models.CheckEmpty(err) {
+		util.ResponseWithJson(9002, "", "", c)
+		return
+	}
+	util.ResponseWithJson(200, result, "查询成功", c)
+}
 
+// 删除购物车商品
+func DelCartGoods(c *gin.Context) {
+	// 接值
+	id := c.DefaultQuery("cart_id", "")
+	cart_id, _ := strconv.Atoi(id)
+	uid, _ := c.Get("ID")
+
+	err := models.DelCartGoods(cart_id, uid.(int))
+	if err != nil {
+		util.ResponseWithJson(9002, err, "", c)
+		return
+	}
+	util.ResponseWithJson(200, "", "删除成功", c)
 }

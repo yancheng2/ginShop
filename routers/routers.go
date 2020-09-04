@@ -19,7 +19,9 @@ func InitRouter() *gin.Engine {
 		//需要token登录的接口
 		tokenG.Use(middleware.TokenVer())
 		{
-			tokenG.POST("addGoodsToCart", v1.AddGoodsToCart) //加购
+			tokenG.POST("addGoodsToCart", v1.AddGoodsToCart)    //加购
+			tokenG.GET("getCartGoodsList", v1.GetCartGoodsList) //购物车列表
+			tokenG.GET("delCartGoods", v1.DelCartGoods)         //购物车列表
 		}
 
 		//无需token登录的接口

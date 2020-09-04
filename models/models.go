@@ -39,3 +39,7 @@ func SetUp() {
 	db.DB().SetMaxIdleConns(10)  //设置空闲时的最大连接数
 	db.DB().SetMaxOpenConns(100) //设置数据库的最大打开连接数
 }
+
+func CheckEmpty(err error) bool {
+	return gorm.IsRecordNotFoundError(err)
+}

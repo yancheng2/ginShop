@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"strconv"
 )
 
 // 登录注册
@@ -47,6 +48,28 @@ func Login(c *gin.Context) {
 		"User":  userInfo,
 		"Token": token,
 	}, "登录成功", c)
+}
+
+func SaveUserInfo(c *gin.Context) {
+	name := c.DefaultPostForm("name", "")
+	desc := c.DefaultPostForm("desc", "")
+	sex := c.DefaultPostForm("sex", "")
+	age := c.DefaultPostForm("age", "")
+	uid, _ := c.Get("ID")
+	sext, _ := strconv.Atoi(sex)
+
+	var info models.User
+	info.Name = name
+	info.Desc = desc
+	info.Sex = sext
+	info.Age = age
+	err := models.SaveUserInfo(uid.(int), info)
+	if err != nil {
+		util.ResponseWithJson(9002, err, "", c)
+		return
+	}
+	util.ResponseWithJson(200, "", "成功", c)
+
 }
 
 //检查错误

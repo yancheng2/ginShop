@@ -36,3 +36,8 @@ func CreateUser(mobile string) (User, error) {
 	}
 	return user, nil
 }
+
+func SaveUserInfo(uid int, info User) error {
+	err := db.Where("id=?", uid).Update(info).Error
+	return err
+}

@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"ginShop/pkg/util"
 	"github.com/gin-gonic/gin"
 	"time"
@@ -10,7 +9,6 @@ import (
 func TokenVer() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("authorization")
-		fmt.Println("token:", token)
 		if token == "" {
 			util.ResponseWithJson(9003, "", "", c)
 			c.Abort()
